@@ -5,7 +5,6 @@ import seaborn as sns
 import streamlit as st
 from io import BytesIO
 import plotly.express as px
-import plotly.graph_objects as go
 
 plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitayasmoothie-dark.mplstyle')
 

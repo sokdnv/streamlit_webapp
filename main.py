@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 def link_button(url, text):
     st.markdown(f'<a href="{url}" target="_blank"><button>{text}</button></a>', unsafe_allow_html=True)
 
