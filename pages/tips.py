@@ -5,6 +5,7 @@ import seaborn as sns
 import streamlit as st
 from io import BytesIO
 import plotly.express as px
+import matplotlib.dates as mpl_dates
 
 plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitayasmoothie-dark.mplstyle')
 
@@ -76,11 +77,15 @@ if tips is not None:
     if plot == 'Динамика чаевых во времени':
         # График 1: Динамика чаевых во времени
         st.subheader('Динамика чаевых во времени')
+        def plot_tip_dynamics(data, x, y, ax):
+            sns.lineplot(data=data, x=x, y=y, ax=ax)
+            ax.xaxis.set_major_formatter(mpl_dates.DateFormatter('%d/%m'))
+
         create_plot(
             title='Динамика чаевых',
             xlabel='Date',
             ylabel='Tip %',
-            plot_func=sns.lineplot,
+            plot_func=plot_tip_dynamics,
             filename='tip_dynamics',
             data=tips, x='date_only', y='tip %'
         )
