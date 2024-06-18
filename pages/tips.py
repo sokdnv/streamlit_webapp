@@ -65,7 +65,7 @@ if tips is not None:
         st.download_button(label=f"Скачать график: {title}", data=buf, file_name=f"{filename}.png", mime="image/png")
         st.divider()
 
-    plot = st.selectbox('График', ['Динамика чаевых во времени',
+    plot = st.selectbox('Выберите график', ['Динамика чаевых во времени',
                             'Распределение чеков',
                             'Связь между чеком и суммой чаевых',
                             'Распределение чаевых по дням недели',
