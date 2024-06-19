@@ -54,6 +54,15 @@ if tips is not None:
     tips['tip %'] = tips['tip'] / tips['total_bill']
     tips['date_only'] = tips['time_order'].dt.date
 
+    tips['day_of_week'] = tips['time_order'].dt.day_name()
+    days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    tips['day_of_week'] = pd.Categorical(tips['day_of_week'], categories=days_order, ordered=True)
+
+    tips['time_only'] = tips['time_order'].dt.time
+
+    tips_lunch = tips[tips['time_class'] == 'lunch']
+    tips_dinner = tips[tips['time_class'] == 'dinner']
+
     # Функция для создания, отображения и скачивания графика
     def create_plot(title, xlabel, ylabel, plot_func, filename, *args, **kwargs):
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -117,9 +126,6 @@ if tips is not None:
     # График 4: Распределение чаевых по дням недели
     elif plot == 'Распределение чаевых по дням недели':
         st.subheader('Распределение чаевых по дням недели')
-        tips['day_of_week'] = tips['time_order'].dt.day_name()
-        days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        tips['day_of_week'] = pd.Categorical(tips['day_of_week'], categories=days_order, ordered=True)
         create_plot(
             title='Распределение % чаевых по дням недели',
             xlabel='% чаевых',
@@ -132,8 +138,6 @@ if tips is not None:
     elif plot == 'Распределение суммы чека по дням недели и приемам пищи':
         # График 5: Распределение суммы чека по дням недели и приемам пищи
         st.subheader('Распределение суммы чека по дням недели и приемам пищи')
-        tips['time_only'] = tips['time_order'].dt.time
-
         def time_classificator(time):
             if 9 <= time.hour < 12:
                 return "breakfast"
@@ -155,8 +159,6 @@ if tips is not None:
     # График 6: Распределение чаевых на обед и ланч
     elif plot == 'Распределение чаевых на обед и ланч':
         st.subheader('Распределение чаевых на обед и ланч')
-        tips_lunch = tips[tips['time_class'] == 'lunch']
-        tips_dinner = tips[tips['time_class'] == 'dinner']
 
         fig_lunch = px.histogram(tips_lunch, x='tip %', title='Распределение чаевых во время ланча')
         fig_dinner = px.histogram(tips_dinner, x='tip %', title='Распределение чаевых во время обеда')
