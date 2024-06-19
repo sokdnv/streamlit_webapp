@@ -58,6 +58,17 @@ if tips is not None:
     days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     tips['day_of_week'] = pd.Categorical(tips['day_of_week'], categories=days_order, ordered=True)
 
+    def time_classificator(time):
+        if 9 <= time.hour < 12:
+            return "breakfast"
+        elif 12 <= time.hour < 16:
+            return "lunch"
+        elif 16 <= time.hour < 23:
+            return "dinner"
+
+
+    tips['time_class'] = tips['time_only'].apply(time_classificator)
+
     tips['time_only'] = tips['time_order'].dt.time
 
     tips_lunch = tips[tips['time_class'] == 'lunch']
@@ -138,15 +149,6 @@ if tips is not None:
     elif plot == 'Распределение суммы чека по дням недели и приемам пищи':
         # График 5: Распределение суммы чека по дням недели и приемам пищи
         st.subheader('Распределение суммы чека по дням недели и приемам пищи')
-        def time_classificator(time):
-            if 9 <= time.hour < 12:
-                return "breakfast"
-            elif 12 <= time.hour < 16:
-                return "lunch"
-            elif 16 <= time.hour < 23:
-                return "dinner"
-
-        tips['time_class'] = tips['time_only'].apply(time_classificator)
         create_plot(
             title='Счета по дням недели',
             xlabel='',
