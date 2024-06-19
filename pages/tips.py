@@ -58,6 +58,8 @@ if tips is not None:
     days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     tips['day_of_week'] = pd.Categorical(tips['day_of_week'], categories=days_order, ordered=True)
 
+    tips['time_only'] = tips['time_order'].dt.time
+
     def time_classificator(time):
         if 9 <= time.hour < 12:
             return "breakfast"
@@ -68,8 +70,6 @@ if tips is not None:
 
 
     tips['time_class'] = tips['time_only'].apply(time_classificator)
-
-    tips['time_only'] = tips['time_order'].dt.time
 
     tips_lunch = tips[tips['time_class'] == 'lunch']
     tips_dinner = tips[tips['time_class'] == 'dinner']
